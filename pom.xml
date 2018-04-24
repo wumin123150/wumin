@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.wumin</groupId>
+	<artifactId>wumin-framework</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<name>Wumin Framework</name>
+	<url>http://www.github.com/wumin123150/wumin</url>
+    <description>        一个用于快速搭建企业后台管理系统的基础项目,集成一揽子便捷功能如:通用增删改查，在线代码生成，权限管理(可控制到列和行)，动态多数据源分布式事务，动态脚本，动态定时任务，在线数据库维护等等
+    </description>
+
+	<developers>
+		<developer>
+			<id>walker</id>
+			<name>Wu Min</name>
+			<email>84760025@qq.com</email>
+			<roles>
+				<role>Owner</role>
+			</roles>
+			<timezone>+8</timezone>
+		</developer>
+	</developers>
+
+	<licenses>
+		<license>
+			<name>Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0</url>
+		</license>
+	</licenses>
+
+	<modules>
+		<module>wumin-parent</module>
+		<module>wumin-common</module>
+  	</modules>
+	
+    <issueManagement>
+        <system>Github</system>
+        <url>https://github.com/wumin123150/wumin/issues</url>
+    </issueManagement>
+
+    <scm>
+        <url>https://github.com/wumin123150/wumin</url>
+        <connection>scm:git:git://github.com/wumin123150/wumin.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com:wumin123150/wumin.git</developerConnection>
+    </scm>
+
+
+</project>
