@@ -60,7 +60,7 @@
         <mockito.version>1.10.19</mockito.version>
         <powermock.version>1.6.6</powermock.version>
         <jsonpath.version>2.4.0</jsonpath.version>
-        <selenium.version>2.42.2</selenium.version>
+        <selenium.version>3.9.1</selenium.version>
         <nosqlunit.version>0.7.9</nosqlunit.version>
         <jetty.version>7.6.15.v20140411</jetty.version>
         <h2.version>1.4.194</h2.version>
@@ -1061,6 +1061,12 @@
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>exec-maven-plugin</artifactId>
                     <version>1.2.1</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring.boot.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>

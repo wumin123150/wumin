@@ -12,9 +12,9 @@ import org.junit.runner.Description;
  */
 public class SeleniumSnapshotRule extends TestWatcher {
 
-	private final Selenium2 s;
+	private final Selenium3 s;
 
-	public SeleniumSnapshotRule(Selenium2 s) {
+	public SeleniumSnapshotRule(Selenium3 s) {
 		this.s = s;
 	}
 

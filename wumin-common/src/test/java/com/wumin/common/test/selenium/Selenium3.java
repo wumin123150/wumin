@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
@@ -22,13 +23,13 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  * 
  * @author walker
  */
-public class Selenium2 {
+public class Selenium3 {
 
 	public static final int DEFAULT_WAIT_TIME = 20;
 	private final WebDriver driver;
 	private final String baseUrl;
 
-	public Selenium2(WebDriver driver, String baseUrl) {
+	public Selenium3(WebDriver driver, String baseUrl) {
 		this.driver = driver;
 		this.baseUrl = baseUrl;
 		setTimeout(DEFAULT_WAIT_TIME);
@@ -37,7 +38,7 @@ public class Selenium2 {
 	/**
 	 * 不设置baseUrl的构造函数, 调用open函数时必须使用绝对路径.
 	 */
-	public Selenium2(WebDriver driver) {
+	public Selenium3(WebDriver driver) {
 		this(driver, "");
 	}
 
@@ -334,7 +335,11 @@ public class Selenium2 {
 	 * @see ExpectedConditions
 	 */
 	public void waitForCondition(ExpectedCondition conditon, int timeout) {
-		(new WebDriverWait(driver, timeout)).until(conditon);
+		new WebDriverWait(driver, timeout).until(new Function<WebDriver, ExpectedCondition>() {
+			public ExpectedCondition apply(WebDriver driver) {
+				return conditon;
+			}
+		});
 	}
 
 	// Selenium1.0 函數 //
