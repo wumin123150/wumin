@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @Configuration
-@EnableTransactionManagement(proxyTargetClass = true)
 @EnableJpaRepositories(basePackages = "com.wumin.*.dao")
 @EntityScan(basePackages = "com.wumin.*.entity")
 public class JpaConfiguration {

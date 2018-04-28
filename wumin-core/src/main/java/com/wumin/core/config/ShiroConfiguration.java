@@ -6,6 +6,7 @@ import com.wumin.core.web.filter.PasswordAuthenticationFilter;
 import com.wumin.core.web.filter.ShiroLogoutFilter;
 import com.wumin.core.web.filter.ShiroPermissionFilter;
 import com.wumin.core.web.filter.ShiroRoleFilter;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
@@ -14,6 +15,7 @@ import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.filter.authc.UserFilter;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,8 +32,7 @@ public class ShiroConfiguration {
     Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
     filterChainDefinitionMap.put("/logout", "logout");
 
-    filterChainDefinitionMap.put("/admin/login", "adminAuthc");
-    filterChainDefinitionMap.put("/admin/**", "adminAuthc, adminUser, roles[admin]");
+    filterChainDefinitionMap.put("/admin/**", "authc, roles[admin]");
 
     filterChainDefinitionMap.put("/static/**", "anon");
     filterChainDefinitionMap.put("/ajaxLogin", "anon");
@@ -47,7 +48,7 @@ public class ShiroConfiguration {
   }
 
   @Bean("shiroFilter")
-  public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager) {
+  public ShiroFilterFactoryBean shiroFilter(@Qualifier("securityManager")SecurityManager securityManager) {
     ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
     shiroFilterFactoryBean.setSecurityManager(securityManager);
 
@@ -59,8 +60,6 @@ public class ShiroConfiguration {
 //    shiroFilterFactoryBean.setUnauthorizedUrl("/403");
 
     Map<String, Filter> filters = new LinkedHashMap<String, Filter>();
-    filters.put("adminAuthc", new PasswordAuthenticationFilter());
-    filters.put("adminUser", new UserFilter());
     filters.put("authc", new PasswordAuthenticationFilter());
     filters.put("logout", new ShiroLogoutFilter());
     filters.put("roles", new ShiroRoleFilter());
@@ -77,10 +76,13 @@ public class ShiroConfiguration {
   }
 
   @Bean(name = "securityManager")
-  public SecurityManager securityManager(AuthorizingRealm shiroRealm) {
+  public SecurityManager securityManager(@Qualifier("shiroRealm")AuthorizingRealm shiroRealm) {
     DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
     securityManager.setRealm(shiroRealm);
     securityManager.setCacheManager(cacheManager());
+
+    SecurityUtils.setSecurityManager(securityManager);
+
     return securityManager;
   }
 
