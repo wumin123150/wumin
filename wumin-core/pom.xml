@@ -9,6 +9,7 @@
 		<relativePath>../wumin-parent/</relativePath>
 	</parent>
 	<artifactId>wumin-core</artifactId>
+	<packaging>war</packaging>
 
 	<!-- 项目属性 -->
 	<properties>
