@@ -36,8 +36,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
       .mediaType("json", MediaType.APPLICATION_JSON_UTF8)
       .mediaType("xml", MediaType.APPLICATION_XML);
   }
-
-
+  
   @Override
   public void addViewControllers(ViewControllerRegistry registry) {
 

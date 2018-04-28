@@ -1,11 +1,13 @@
 package com.wumin.core.config;
 
+import com.alibaba.druid.pool.DruidDataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
 import javax.sql.DataSource;
+import java.sql.SQLException;
 
 @Configuration
 public class DruidConfiguration {
@@ -41,12 +43,20 @@ public class DruidConfiguration {
   private boolean poolPreparedStatements;
   @Value("${spring.datasource.maxPoolPreparedStatementPerConnectionSize}")
   private int maxPoolPreparedStatementPerConnectionSize;
-  @Value("${spring.datasource.filters}")
-  private String filters;
+
+  @Value("${spring.datasource.removeAbandoned}")
+  private boolean removeAbandoned;
+  @Value("${spring.datasource.removeAbandonedTimeout}")
+  private int removeAbandonedTimeout;
+  @Value("${spring.datasource.logAbandoned}")
+  private boolean logAbandoned;
+
   @Value("${spring.datasource.connectionProperties}")
   private String connectionProperties;
   @Value("${spring.datasource.useGlobalDataSourceStat}")
   private boolean useGlobalDataSourceStat;
+  @Value("${spring.datasource.filters}")
+  private String filters;
 
   @Bean     //声明其为Bean实例
   @Primary  //在同样的DataSource中，首先使用被标注的DataSource
@@ -70,13 +80,18 @@ public class DruidConfiguration {
     datasource.setTestOnReturn(testOnReturn);
     datasource.setPoolPreparedStatements(poolPreparedStatements);
     datasource.setMaxPoolPreparedStatementPerConnectionSize(maxPoolPreparedStatementPerConnectionSize);
+
+    datasource.setRemoveAbandoned(removeAbandoned);
+    datasource.setRemoveAbandonedTimeout(removeAbandonedTimeout);
+    datasource.setLogAbandoned(logAbandoned);
+
+    datasource.setConnectionProperties(connectionProperties);
     datasource.setUseGlobalDataSourceStat(useGlobalDataSourceStat);
     try {
       datasource.setFilters(filters);
     } catch (SQLException e) {
       System.err.println("druid configuration initialization filter: "+ e);
     }
-    datasource.setConnectionProperties(connectionProperties);
     return datasource;
   }
 }
