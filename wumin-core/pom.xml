@@ -41,6 +41,11 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-ehcache</artifactId>
+		</dependency>
+
 		<!-- connection pool -->
 		<dependency>
 			<groupId>com.alibaba</groupId>

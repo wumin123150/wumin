@@ -21,7 +21,7 @@ public class UserGroupController {
 
   private static final String MENU = "userGroup";
 
-  @Value("${system.theme:ace}")
+  @Value("${system.theme:layui}")
   private String theme;
 
   @Autowired

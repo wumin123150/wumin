@@ -21,7 +21,7 @@ public class DataDictionaryController {
 
   private static final String MENU = "dataDictionary";
 
-  @Value("${system.theme:ace}")
+  @Value("${system.theme:layui}")
   private String theme;
 
   @Autowired

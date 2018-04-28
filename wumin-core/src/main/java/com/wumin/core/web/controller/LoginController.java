@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class LoginController {
 
-  @Value("${system.theme:ace}")
+  @Value("${system.theme:layui}")
   private String theme;
 
   @ApiOperation(value = "管理员登录页面", httpMethod = "GET")

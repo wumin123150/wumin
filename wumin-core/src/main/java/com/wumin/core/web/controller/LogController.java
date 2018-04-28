@@ -20,7 +20,7 @@ public class LogController {
 
   private static final String MENU = "log";
 
-  @Value("${system.theme:ace}")
+  @Value("${system.theme:layui}")
   private String theme;
 
   @Autowired

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class AdminController {
 
-  @Value("${system.theme:ace}")
+  @Value("${system.theme:layui}")
   private String theme;
 
   @RequiresRoles("admin")

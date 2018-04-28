@@ -35,7 +35,7 @@ public class AccountController {
   @Autowired
   private MessageService messageService;
 
-  @Value("${system.theme:ace}")
+  @Value("${system.theme:layui}")
   private String theme;
 
   @ApiOperation(value = "修改账户页面", httpMethod = "GET")

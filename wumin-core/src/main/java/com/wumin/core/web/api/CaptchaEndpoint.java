@@ -27,7 +27,7 @@ public class CaptchaEndpoint {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(CaptchaEndpoint.class);
 
-  @Value("${sms.content}")
+  @Value("${sms.content:无内容}")
   private String smsContent;
   @Autowired
   UserService userService;

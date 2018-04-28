@@ -34,7 +34,7 @@ public class AnnexController {
 
   private static final String MENU = "annex";
 
-  @Value("${system.theme:ace}")
+  @Value("${system.theme:layui}")
   private String theme;
 
   @Autowired

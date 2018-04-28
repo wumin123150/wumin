@@ -28,7 +28,7 @@ public class RoleController {
   private static final String ACTION_CREATE = "create";
   private static final String ACTION_UPDATE = "update";
 
-  @Value("${system.theme:ace}")
+  @Value("${system.theme:layui}")
   private String theme;
 
   @Autowired
