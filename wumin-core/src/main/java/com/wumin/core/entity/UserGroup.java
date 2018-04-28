@@ -1,7 +1,8 @@
 package com.wumin.core.entity;
 
-import com.foomei.common.collection.ListUtil;
-import com.foomei.common.entity.DeleteRecord;
+import com.wumin.common.collection.ListUtil;
+import com.wumin.common.entity.DeleteRecord;
+import com.wumin.common.entity.IdEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

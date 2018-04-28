@@ -35,6 +35,7 @@
 	<modules>
 		<module>wumin-parent</module>
 		<module>wumin-common</module>
+		<module>wumin-core</module>
   	</modules>
 	
     <issueManagement>

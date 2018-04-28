@@ -18,23 +18,17 @@
         <project.build.jdk>${java.version}</project.build.jdk>
 
         <spring.boot.version>2.0.1.RELEASE</spring.boot.version>
-        <hibernate.version>4.3.11.Final</hibernate.version>
         <querydsl.version>4.1.4</querydsl.version>
         <druid.version>1.0.29</druid.version>
         <webjars-locator.version>0.32</webjars-locator.version>
         <jquery.version>2.2.4</jquery.version>
         <bootstrap.version>3.3.7</bootstrap.version>
         <shiro.version>1.3.2</shiro.version>
-        <cxf.version>2.7.18</cxf.version>
-        <activemq.version>5.7.0</activemq.version>
         <quartz.version>2.2.3</quartz.version>
         <jedis.version>2.9.0</jedis.version>
         <ehcache.version>2.6.11</ehcache.version>
-        <hibernate-validator.version>4.3.2.Final</hibernate-validator.version>
         <fluent-validator.version>1.0.8</fluent-validator.version>
         <jolokia.version>1.3.5</jolokia.version>
-        <javasimon.version>4.1.2</javasimon.version>
-        <jackson.version>2.8.7</jackson.version>
         <slf4j.version>1.7.25</slf4j.version>
         <logback.version>1.2.2</logback.version>
         <commons-lang3.version>3.5</commons-lang3.version>
@@ -51,12 +45,9 @@
         <joda-time.version>2.9.9</joda-time.version>
         <dozer.version>5.5.1</dozer.version>
         <httpclient.version>4.5.3</httpclient.version>
-        <freemarker.version>2.3.23</freemarker.version>
         <springfox.version>2.7.0</springfox.version>
-        <aspectj.version>1.8.10</aspectj.version>
         <cglib.version>3.2.5</cglib.version>
         <junit.version>4.12</junit.version>
-        <assertj.version>2.6.0</assertj.version>
         <mockito.version>1.10.19</mockito.version>
         <powermock.version>1.6.6</powermock.version>
         <jsonpath.version>2.4.0</jsonpath.version>
@@ -84,18 +75,7 @@
                 <scope>import</scope>
             </dependency>
 
-            <!-- AOP begin -->
-            <dependency>
-                <groupId>org.aspectj</groupId>
-                <artifactId>aspectjrt</artifactId>
-                <version>${aspectj.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.aspectj</groupId>
-                <artifactId>aspectjweaver</artifactId>
-                <version>${aspectj.version}</version>
-                <scope>runtime</scope>
-            </dependency>
+            <!-- cglib begin -->
             <dependency>
                 <groupId>cglib</groupId>
                 <artifactId>cglib</artifactId>
@@ -105,6 +85,10 @@
                         <groupId>org.apache.ant</groupId>
                         <artifactId>ant</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>org.ow2.asm</groupId>
+                        <artifactId>asm</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
             <dependency>
@@ -112,26 +96,9 @@
                 <artifactId>cglib-nodep</artifactId>
                 <version>${cglib.version}</version>
             </dependency>
-            <!-- AOP end -->
+            <!-- cglib end -->
 
             <!-- PERSISTENCE begin -->
-            <!-- hibernate -->
-            <dependency>
-                <groupId>org.hibernate</groupId>
-                <artifactId>hibernate-core</artifactId>
-                <version>${hibernate.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.hibernate</groupId>
-                <artifactId>hibernate-entitymanager</artifactId>
-                <version>${hibernate.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.hibernate</groupId>
-                <artifactId>hibernate-ehcache</artifactId>
-                <version>${hibernate.version}</version>
-            </dependency>
-
             <!--query dsl-->
             <dependency>
                 <groupId>com.querydsl</groupId>
@@ -233,91 +200,6 @@
             </dependency>
             <!-- SECURITY end -->
 
-            <!-- SOAP begin -->
-            <dependency>
-                <groupId>org.apache.cxf</groupId>
-                <artifactId>cxf-rt-core</artifactId>
-                <version>${cxf.version}</version>
-                <exclusions>
-                    <!-- use javax.mail.mail instead -->
-                    <exclusion>
-                        <groupId>org.apache.geronimo.specs</groupId>
-                        <artifactId>geronimo-javamail_1.4_spec</artifactId>
-                    </exclusion>
-                    <!-- use javax.activation.activation instead -->
-                    <exclusion>
-                        <groupId>org.apache.geronimo.specs</groupId>
-                        <artifactId>geronimo-activation_1.1_spec</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.cxf</groupId>
-                <artifactId>cxf-rt-frontend-jaxws</artifactId>
-                <version>${cxf.version}</version>
-                <exclusions>
-                    <!-- see above -->
-                    <exclusion>
-                        <groupId>org.apache.geronimo.specs</groupId>
-                        <artifactId>geronimo-javamail_1.4_spec</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.apache.geronimo.specs</groupId>
-                        <artifactId>geronimo-activation_1.1_spec</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.cxf</groupId>
-                <artifactId>cxf-rt-transports-http</artifactId>
-                <version>${cxf.version}</version>
-            </dependency>
-            <!-- SOAP end -->
-
-            <!-- JAX-RS begin -->
-            <dependency>
-                <groupId>org.apache.cxf</groupId>
-                <artifactId>cxf-rt-frontend-jaxrs</artifactId>
-                <version>${cxf.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.jaxrs</groupId>
-                <artifactId>jackson-jaxrs-json-provider</artifactId>
-                <version>${jackson.version}</version>
-                <scope>runtime</scope>
-            </dependency>
-            <!-- JAX-RS end -->
-
-            <!-- JMS begin -->
-            <dependency>
-                <groupId>org.apache.activemq</groupId>
-                <artifactId>activemq-core</artifactId>
-                <version>${activemq.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.apache.activemq.protobuf</groupId>
-                        <artifactId>activemq-protobuf</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.springframework.osgi</groupId>
-                        <artifactId>spring-osgi-core</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.osgi</groupId>
-                        <artifactId>org.osgi.core</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>org.fusesource.mqtt-client</groupId>
-                        <artifactId>mqtt-client</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>commons-logging</groupId>
-                        <artifactId>commons-logging</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <!-- JMS end -->
-
             <!-- TIMER -->
             <dependency>
                 <groupId>org.quartz-scheduler</groupId>
@@ -351,11 +233,6 @@
 
             <!-- JSR303 Bean Validator -->
             <dependency>
-                <groupId>org.hibernate</groupId>
-                <artifactId>hibernate-validator</artifactId>
-                <version>${hibernate-validator.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>com.baidu.unbiz</groupId>
                 <artifactId>fluent-validator</artifactId>
                 <version>${fluent-validator.version}</version>
@@ -385,24 +262,6 @@
                     </exclusion>
                 </exclusions>
             </dependency>
-
-            <!-- JSON begin -->
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-core</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-databind</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.module</groupId>
-                <artifactId>jackson-module-jaxb-annotations</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
-            <!-- JSON end -->
 
             <!-- XML begin -->
             <dependency>
@@ -520,6 +379,12 @@
                 <groupId>ma.glasnost.orika</groupId>
                 <artifactId>orika-core</artifactId>
                 <version>${orika.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.javassist</groupId>
+                        <artifactId>javassist</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <!-- getter & setter -->
@@ -539,12 +404,6 @@
                 <groupId>joda-time</groupId>
                 <artifactId>joda-time-jsptags</artifactId>
                 <version>1.1.1</version>
-            </dependency>
-            <!-- joda for jackson -->
-            <dependency>
-                <groupId>com.fasterxml.jackson.datatype</groupId>
-                <artifactId>jackson-datatype-joda</artifactId>
-                <version>${jackson.version}</version>
             </dependency>
             <!-- GENERAL UTILS end -->
 
@@ -597,13 +456,6 @@
                         <artifactId>commons-logging</artifactId>
                     </exclusion>
                 </exclusions>
-            </dependency>
-
-            <!-- template engine -->
-            <dependency>
-                <groupId>org.freemarker</groupId>
-                <artifactId>freemarker</artifactId>
-                <version>${freemarker.version}</version>
             </dependency>
 
             <!-- swagger2 -->
@@ -699,22 +551,6 @@
             <!-- OTHER TOOLS end -->
 
             <!-- TEST begin -->
-            <!-- junit -->
-            <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>${junit.version}</version>
-                <scope>test</scope>
-            </dependency>
-
-            <!-- assertj -->
-            <dependency>
-                <groupId>org.assertj</groupId>
-                <artifactId>assertj-core</artifactId>
-                <version>${assertj.version}</version>
-                <scope>test</scope>
-            </dependency>
-
             <!-- mockito -->
             <dependency>
                 <groupId>org.mockito</groupId>
@@ -746,14 +582,6 @@
                 <groupId>com.jayway.jsonpath</groupId>
                 <artifactId>json-path</artifactId>
                 <version>${jsonpath.version}</version>
-                <scope>test</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>com.foomei</groupId>
-                <artifactId>foomei-common</artifactId>
-                <version>${foomei.version}</version>
-                <classifier>tests</classifier>
                 <scope>test</scope>
             </dependency>
 
@@ -830,22 +658,6 @@
                 <groupId>com.lordofthejars</groupId>
                 <artifactId>nosqlunit-redis</artifactId>
                 <version>${nosqlunit.version}</version>
-                <scope>test</scope>
-            </dependency>
-
-            <!-- memcached simulator -->
-            <dependency>
-                <groupId>com.thimbleware.jmemcached</groupId>
-                <artifactId>jmemcached-core</artifactId>
-                <version>1.0.0</version>
-                <scope>test</scope>
-            </dependency>
-
-            <!-- smtp server simulator -->
-            <dependency>
-                <groupId>com.icegreen</groupId>
-                <artifactId>greenmail</artifactId>
-                <version>1.3.1b</version>
                 <scope>test</scope>
             </dependency>
 

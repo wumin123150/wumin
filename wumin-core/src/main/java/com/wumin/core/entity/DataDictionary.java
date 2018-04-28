@@ -1,5 +1,6 @@
 package com.wumin.core.entity;
 
+import com.wumin.common.entity.IdEntity;
 import io.swagger.annotations.ApiModel;
 import lombok.Getter;
 import lombok.Setter;

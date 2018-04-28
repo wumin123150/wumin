@@ -1,5 +1,6 @@
 package com.wumin.core.entity;
 
+import com.wumin.common.entity.IdEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

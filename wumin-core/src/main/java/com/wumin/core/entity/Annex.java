@@ -1,5 +1,6 @@
 package com.wumin.core.entity;
 
+import com.wumin.common.entity.UuidEntity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -20,6 +21,9 @@ import java.util.Date;
 @Table(name = "Core_Annex")
 @SuppressWarnings("serial")
 public class Annex extends UuidEntity {
+
+  public static final String PATH_TEMP = "/temp";
+  public static final String OBJECT_TYPE_TEMP = "temp";
 
   private String objectId;//对象ID
   private String objectType;//对象类型

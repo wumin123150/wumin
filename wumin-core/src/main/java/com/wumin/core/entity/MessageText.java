@@ -1,6 +1,7 @@
 package com.wumin.core.entity;
 
-import com.foomei.common.entity.CreateRecord;
+import com.wumin.common.entity.CreateRecord;
+import com.wumin.common.entity.UuidEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

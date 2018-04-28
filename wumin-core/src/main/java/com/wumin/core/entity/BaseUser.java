@@ -1,7 +1,6 @@
 package com.wumin.core.entity;
 
-import com.baomidou.mybatisplus.annotations.TableName;
-import com.foomei.common.entity.IdEntity;
+import com.wumin.common.entity.IdEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;

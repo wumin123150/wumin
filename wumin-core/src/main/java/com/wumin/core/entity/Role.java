@@ -1,7 +1,8 @@
 package com.wumin.core.entity;
 
-import com.foomei.common.collection.CollectionExtractor;
-import com.foomei.common.collection.ListUtil;
+import com.wumin.common.collection.CollectionExtractor;
+import com.wumin.common.collection.ListUtil;
+import com.wumin.common.entity.IdEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

@@ -1,10 +1,9 @@
 package com.wumin.core.dao;
 
+import com.wumin.common.dao.JpaDao;
 import com.wumin.core.entity.Annex;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-public interface AnnexDao extends JpaRepository<Annex, String>, JpaSpecificationExecutor<Annex> {
+public interface AnnexDao extends JpaDao<Annex, String> {
 
 	Annex findByPath(String path);
 	
