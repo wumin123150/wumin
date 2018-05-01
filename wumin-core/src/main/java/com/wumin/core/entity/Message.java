@@ -37,6 +37,7 @@ public class Message extends UuidEntity {
   @JoinColumn(name = "text_id")
   private MessageText text;//内容
   @ManyToOne
+  @JoinColumn(name = "receiver")
   private BaseUser receiver;//接收人
   private Integer sendStatus;//发送状态(0:发送中,1:已发送,2:发送失败)
   private Date sendTime;//发送时间

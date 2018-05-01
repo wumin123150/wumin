@@ -33,7 +33,7 @@ public class Role extends IdEntity {
   private String code;//代码
   private String name;//名称
 
-  @ManyToMany
+  @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(name = "Core_Role_Permission", joinColumns = {@JoinColumn(name = "roleId")}, inverseJoinColumns = {@JoinColumn(name = "permissionId")})
   @Fetch(FetchMode.SUBSELECT)
   @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)

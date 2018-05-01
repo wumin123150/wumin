@@ -42,6 +42,7 @@ public class UserGroup extends IdEntity {
   private Integer type;//类型(0:公司,1:部门,2:小组,3:其他)
   private Integer grade;//层级
   @ManyToOne
+  @JoinColumn(name="director")
   private BaseUser director;//负责人
   private String path;//路径
   private Long parentId;//父ID
@@ -53,7 +54,7 @@ public class UserGroup extends IdEntity {
   }
 
   // 多对多定义
-  @ManyToMany
+  @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(name = "Core_Group_Role", joinColumns = {@JoinColumn(name = "group_id")}, inverseJoinColumns = {@JoinColumn(name = "role_id")})
   // Fecth策略定义
   @Fetch(FetchMode.SUBSELECT)

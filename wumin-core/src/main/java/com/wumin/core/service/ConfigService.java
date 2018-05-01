@@ -5,6 +5,7 @@ import com.wumin.core.dao.ConfigDao;
 import com.wumin.core.entity.Config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 系统配置管理业务类.
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
  * @author walker
  */
 @Service
+@Transactional
 public class ConfigService extends JpaServiceImpl<Config, Long> {
 
   @Autowired

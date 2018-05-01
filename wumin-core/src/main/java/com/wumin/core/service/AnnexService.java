@@ -33,6 +33,7 @@ import java.util.Locale;
  */
 // Spring Service Bean的标识.
 @Service
+@Transactional
 public class AnnexService extends JpaServiceImpl<Annex, String> {
 
   @Autowired

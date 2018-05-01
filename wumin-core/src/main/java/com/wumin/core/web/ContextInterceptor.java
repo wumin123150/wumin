@@ -8,18 +8,16 @@ import com.wumin.core.service.BaseUserService;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@Component
 public class ContextInterceptor extends HandlerInterceptorAdapter {
 
-  @Value("${system.application}")
-  private String application;
-  @Value("${system.company}")
-  private String company;
   @Value("${upload.folder:/opt/upload/}")
   private String uploadPath;
 
@@ -44,8 +42,7 @@ public class ContextInterceptor extends HandlerInterceptorAdapter {
   @Override
   public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
     if (modelAndView != null) {
-      modelAndView.addObject("iApplication", application);
-      modelAndView.addObject("iCompany", company);
+
     }
   }
 

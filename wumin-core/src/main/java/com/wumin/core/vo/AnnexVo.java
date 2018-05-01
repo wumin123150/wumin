@@ -9,6 +9,8 @@ import lombok.Data;
 public class AnnexVo {
 
   private String id;
+  @ApiModelProperty(value = "基础路径")
+  private String path;
   @ApiModelProperty(value = "访问路径")
   private String requestURI;
 

@@ -1,5 +1,6 @@
 package com.wumin.core.config;
 
+import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import com.wumin.common.security.shiro.EhCacheManager;
 import com.wumin.core.service.ShiroPasswordRealm;
 import com.wumin.core.web.filter.PasswordAuthenticationFilter;
@@ -13,7 +14,9 @@ import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.filter.authc.UserFilter;
+import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.servlet.SimpleCookie;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -34,6 +37,7 @@ public class ShiroConfiguration {
 
     filterChainDefinitionMap.put("/admin/**", "authc, roles[admin]");
 
+    filterChainDefinitionMap.put("/login", "authc");
     filterChainDefinitionMap.put("/static/**", "anon");
     filterChainDefinitionMap.put("/ajaxLogin", "anon");
     filterChainDefinitionMap.put("/api/captcha/**", "anon");
@@ -48,7 +52,7 @@ public class ShiroConfiguration {
   }
 
   @Bean("shiroFilter")
-  public ShiroFilterFactoryBean shiroFilter(@Qualifier("securityManager")SecurityManager securityManager) {
+  public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager) {
     ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
     shiroFilterFactoryBean.setSecurityManager(securityManager);
 
@@ -70,26 +74,40 @@ public class ShiroConfiguration {
     return shiroFilterFactoryBean;
   }
 
-  @Bean(name = "shiroRealm")
+  @Bean
   public AuthorizingRealm shiroRealm() {
     return new ShiroPasswordRealm();
   }
 
   @Bean(name = "securityManager")
-  public SecurityManager securityManager(@Qualifier("shiroRealm")AuthorizingRealm shiroRealm) {
+  public SecurityManager securityManager(AuthorizingRealm shiroRealm) {
     DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
     securityManager.setRealm(shiroRealm);
-    securityManager.setCacheManager(cacheManager());
-
+    securityManager.setCacheManager(ehCacheManager());
+    securityManager.setRememberMeManager(rememberMeManager());
     SecurityUtils.setSecurityManager(securityManager);
-
     return securityManager;
   }
 
   @Bean
-  public EhCacheManager cacheManager() {
+  public SimpleCookie rememberMeCookie(){
+    SimpleCookie simpleCookie = new SimpleCookie("rememberMe");
+    //<!-- 记住我cookie生效时间30天 ,单位秒;-->
+    simpleCookie.setMaxAge(259200);
+    return simpleCookie;
+  }
+
+  @Bean
+  public CookieRememberMeManager rememberMeManager(){
+    CookieRememberMeManager cookieRememberMeManager = new CookieRememberMeManager();
+    cookieRememberMeManager.setCookie(rememberMeCookie());
+    return cookieRememberMeManager;
+  }
+
+  @Bean
+  public EhCacheManager ehCacheManager() {
     EhCacheManager ehCacheManager = new EhCacheManager();
-    ehCacheManager.setCacheManagerConfigFile("classpath:security/ehcache-shiro.xml");
+    ehCacheManager.setCacheManagerConfigFile("classpath:cache/ehcache-shiro.xml");
     return ehCacheManager;
   }
 
@@ -127,6 +145,11 @@ public class ShiroConfiguration {
     proxy.setTargetBeanName("shiroFilter");
     filterRegistrationBean.setFilter(proxy);
     return filterRegistrationBean;
+  }
+
+  @Bean
+  public ShiroDialect shiroDialect() {
+    return new ShiroDialect();
   }
 
 }

@@ -5,6 +5,7 @@ import com.wumin.core.dao.DataTypeDao;
 import com.wumin.core.entity.DataType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 数据类型管理业务类.
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
  * @author walker
  */
 @Service
+@Transactional
 public class DataTypeService extends JpaServiceImpl<DataType, Long> {
 
   @Autowired

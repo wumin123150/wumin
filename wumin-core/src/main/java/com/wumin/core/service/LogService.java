@@ -27,6 +27,7 @@ import java.util.List;
  * @author walker
  */
 @Service
+@Transactional
 public class LogService extends JpaServiceImpl<Log, String> {
 
   @Value("${log.period:30}")

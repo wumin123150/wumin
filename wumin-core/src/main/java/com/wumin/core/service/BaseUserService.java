@@ -6,6 +6,7 @@ import com.wumin.core.entity.BaseUser;
 import com.wumin.core.entity.QUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -15,6 +16,7 @@ import java.util.Optional;
  * @author walker
  */
 @Service
+@Transactional
 public class BaseUserService extends JpaServiceImpl<BaseUser, Long> {
 
   @Autowired

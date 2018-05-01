@@ -38,6 +38,7 @@ import java.util.Optional;
  * @author walker
  */
 @Service
+@Transactional
 public class UserService extends JpaServiceImpl<User, Long> {
   public static final String HASH_ALGORITHM = "SHA-1";
   public static final int HASH_INTERATIONS = 1024;

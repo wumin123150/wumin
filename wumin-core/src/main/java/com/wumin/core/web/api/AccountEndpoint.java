@@ -16,12 +16,15 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Api(description = "账户接口")
@@ -101,7 +104,7 @@ public class AccountEndpoint {
     @ApiImplicitParam(name = "email", value = "邮箱", dataType = "string", paramType = "form")
   })
   @RequestMapping(value = "change", method = RequestMethod.POST)
-  public ResponseResult change(String name, Integer sex, @DateTimeFormat(pattern = "yyyy-MM-dd") Date birthday, String mobile, String email) {
+  public ResponseResult change(String name, Integer sex, Date birthday, String mobile, String email) {
     Long id = CoreThreadContext.getUserId();
     User user = userService.get(id);
     user.setName(name);
@@ -111,6 +114,13 @@ public class AccountEndpoint {
     user.setEmail(email);
     userService.save(user);
     return ResponseResult.SUCCEED;
+  }
+
+  @InitBinder
+  public void initBinder(WebDataBinder binder) {
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    dateFormat.setLenient(false);
+    binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
   }
 
 }

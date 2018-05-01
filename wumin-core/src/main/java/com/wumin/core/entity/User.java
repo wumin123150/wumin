@@ -63,7 +63,7 @@ public class User extends IdEntity {
   private String status;//状态(I:未激活,A:正常,E:过期,L:锁定,T:终止)
 
   // 多对多定义
-  @ManyToMany
+  @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(name = "Core_Membership", joinColumns = {@JoinColumn(name = "user_id")}, inverseJoinColumns = {@JoinColumn(name = "group_id")})
   // Fecth策略定义
   @Fetch(FetchMode.SUBSELECT)
@@ -73,7 +73,7 @@ public class User extends IdEntity {
   @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
   private List<UserGroup> groupList = ListUtil.newArrayList();
   // 多对多定义
-  @ManyToMany
+  @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(name = "Core_User_Role", joinColumns = {@JoinColumn(name = "user_id")}, inverseJoinColumns = {@JoinColumn(name = "role_id")})
   // Fecth策略定义
   @Fetch(FetchMode.SUBSELECT)

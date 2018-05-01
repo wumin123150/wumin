@@ -29,10 +29,12 @@ import com.wumin.core.entity.Role;
 import com.wumin.core.entity.User;
 import com.wumin.core.entity.UserGroup;
 import com.google.common.collect.Sets;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class ShiroWeixinRealm extends AuthorizingRealm {
 
-  protected UserService userService;
+  @Autowired
+  private UserService userService;
 
   /**
    * 认证回调函数,登录时调用.
@@ -103,10 +105,6 @@ public class ShiroWeixinRealm extends AuthorizingRealm {
   @PostConstruct
   public void initAuthenticationTokenClass() {
     setAuthenticationTokenClass(WeixinToken.class);
-  }
-
-  public void setUserService(UserService userService) {
-    this.userService = userService;
   }
 
   public static class RoleComparator implements Comparator<Role>, Serializable {

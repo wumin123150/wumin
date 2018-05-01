@@ -5,6 +5,7 @@ import com.wumin.core.dao.RoleDao;
 import com.wumin.core.entity.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 角色管理业务类.
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
  * @author walker
  */
 @Service
+@Transactional
 public class RoleService extends JpaServiceImpl<Role, Long> {
 
   @Autowired

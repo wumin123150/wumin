@@ -1,5 +1,6 @@
 package com.wumin.core.web.controller;
 
+import com.wumin.core.web.CoreThreadContext;
 import io.swagger.annotations.Api;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,7 +23,8 @@ public class AdminController {
 
   @RequiresRoles("admin")
   @RequestMapping(value = "/admin/index", method = RequestMethod.GET)
-  public String index() {
+  public String index(Model model) {
+    model.addAttribute("userId", CoreThreadContext.getUserId());//解决shiro:principal在@路径中无法使用
     return theme + "/index";
   }
 
@@ -31,8 +33,6 @@ public class AdminController {
     model.addAttribute("usedMemory", Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory());
     model.addAttribute("freeMemory", Runtime.getRuntime().freeMemory());
     model.addAttribute("maxMemory", Runtime.getRuntime().maxMemory());
-
-
     return theme + "/home";
   }
 

@@ -27,6 +27,7 @@ import javax.persistence.PersistenceContext;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 public abstract class JpaServiceImpl<T, ID extends Serializable> implements JpaService<T, ID> {
 
@@ -36,7 +37,7 @@ public abstract class JpaServiceImpl<T, ID extends Serializable> implements JpaS
   protected Class<T> entityClazz;
   protected JPAQueryFactory queryFactory;
 
-  private EntityManager entityManager;
+  protected EntityManager entityManager;
 
   public JpaServiceImpl() {
     this.entityClazz = ClassUtil.getClassGenricType(getClass(), 0);
@@ -48,7 +49,8 @@ public abstract class JpaServiceImpl<T, ID extends Serializable> implements JpaS
   }
 
   public T get(ID id) {
-    return dao.getOne(id);
+    Optional<T> result = dao.findById(id);
+    return result.isPresent() ? result.get() : null;
   }
 
   public List<T> getAll() {

@@ -1,5 +1,7 @@
 package com.wumin.core.web.controller;
 
+import com.wumin.common.collection.CollectionExtractor;
+import com.wumin.common.collection.ListUtil;
 import com.wumin.core.entity.UserGroup;
 import com.wumin.core.service.RoleService;
 import com.wumin.core.service.UserGroupService;
@@ -45,6 +47,7 @@ public class UserGroupController {
     UserGroup userGroup = new UserGroup();
     model.addAttribute("userGroup", userGroup);
     model.addAttribute("parent", parentId == null ? null : userGroupService.get(parentId));
+    model.addAttribute("selectedRoleIds", ListUtil.newArrayList());
     model.addAttribute("roles", roleService.getAll());
     return theme + "/userGroup/userGroupForm";
   }
@@ -56,6 +59,7 @@ public class UserGroupController {
     UserGroup userGroup = userGroupService.get(id);
     model.addAttribute("userGroup", userGroup);
     model.addAttribute("parent", userGroup.getParentId() == null ? null : userGroupService.get(userGroup.getParentId()));
+    model.addAttribute("selectedRoleIds", CollectionExtractor.extractToList(userGroup.getRoleList(), "id"));
     model.addAttribute("roles", roleService.getAll());
     return theme + "/userGroup/userGroupForm";
   }

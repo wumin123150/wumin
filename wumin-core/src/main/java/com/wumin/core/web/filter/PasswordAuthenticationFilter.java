@@ -1,6 +1,5 @@
 package com.wumin.core.web.filter;
 
-import com.wumin.common.base.ObjectUtil;
 import com.wumin.common.dto.ErrorCodeFactory;
 import com.wumin.common.dto.ResponseResult;
 import com.wumin.common.mapper.JsonMapper;
@@ -8,10 +7,8 @@ import com.wumin.common.net.IPUtil;
 import com.wumin.common.net.RequestUtil;
 import com.wumin.common.security.shiro.CaptchaException;
 import com.wumin.common.security.shiro.InactiveAccountException;
-import com.wumin.common.security.shiro.ShiroUser;
 import com.wumin.common.web.Servlets;
 import com.wumin.core.entity.Log;
-import com.wumin.core.service.UserService;
 import com.wumin.core.web.LogQueue;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
@@ -23,7 +20,6 @@ import org.apache.shiro.web.util.SavedRequest;
 import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -35,13 +31,9 @@ import java.util.Date;
 /**
  * 自定义登录认证filter
  */
-
 public class PasswordAuthenticationFilter extends FormAuthenticationFilter {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(PasswordAuthenticationFilter.class);
-
-  @Autowired
-  private UserService userService;
 
   // 开始时间
   private long startTime = 0L;
@@ -96,9 +88,8 @@ public class PasswordAuthenticationFilter extends FormAuthenticationFilter {
    */
   public boolean onLoginSuccess(AuthenticationToken token, Subject subject, ServletRequest request,
                                 ServletResponse response) throws Exception {
-    ShiroUser user = (ShiroUser) subject.getPrincipal();
-    userService.loginSuccess(user.getLoginName(), IPUtil.getIp(WebUtils.toHttp(request)));
-
+//    ShiroUser user = (ShiroUser) subject.getPrincipal();
+//    userService.loginSuccess(user.getLoginName(), IPUtil.getIp(WebUtils.toHttp(request)));
     log((HttpServletRequest) request, getUsername(request), "success");
 
     if (RequestUtil.isAjaxRequest((HttpServletRequest) request)) {

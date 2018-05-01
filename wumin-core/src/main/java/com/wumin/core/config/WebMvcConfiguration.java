@@ -1,12 +1,15 @@
 package com.wumin.core.config;
 
 import com.wumin.core.web.ContextInterceptor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.format.datetime.DateFormatter;
 import org.springframework.http.MediaType;
 import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.resource.PathResourceResolver;
+import org.springframework.web.servlet.resource.WebJarsResourceResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
@@ -14,9 +17,12 @@ import org.springframework.web.servlet.view.JstlView;
 @EnableWebMvc
 public class WebMvcConfiguration implements WebMvcConfigurer {
 
+  @Autowired
+  private ContextInterceptor contextInterceptor;
+
   @Override
   public void addInterceptors(InterceptorRegistry registry) {
-    registry.addInterceptor(new ContextInterceptor()).addPathPatterns("/**");
+    registry.addInterceptor(contextInterceptor).addPathPatterns("/**");
   }
 
   @Override
@@ -41,18 +47,22 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
     registry.addViewController("/").setViewName("/admin/index");
   }
 
-  @Bean
-  public InternalResourceViewResolver viewResolver(){
-    InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-    viewResolver.setPrefix("/WEB-INF/views/");
-    viewResolver.setSuffix(".jsp");
-    viewResolver.setViewClass(JstlView.class);
-    return  viewResolver;
-  }
+//  @Bean
+//  public InternalResourceViewResolver viewResolver(){
+//    InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+//    viewResolver.setPrefix("/WEB-INF/views/");
+//    viewResolver.setSuffix(".jsp");
+//    viewResolver.setViewClass(JstlView.class);
+//    return  viewResolver;
+//  }
 
   @Override
   public void addResourceHandlers(ResourceHandlerRegistry registry) {
     registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+    registry.addResourceHandler("/webjars/**").addResourceLocations("/webjars/")
+      .resourceChain(false)
+      .addResolver(new WebJarsResourceResolver())
+      .addResolver(new PathResourceResolver());
   }
 
   @Override

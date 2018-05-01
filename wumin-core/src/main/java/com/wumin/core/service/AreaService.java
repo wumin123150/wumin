@@ -5,6 +5,7 @@ import com.wumin.core.dao.AreaDao;
 import com.wumin.core.entity.Area;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ import java.util.List;
  * @author walker
  */
 @Service
+@Transactional
 public class AreaService extends JpaServiceImpl<Area, String> {
 
   @Autowired

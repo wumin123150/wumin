@@ -19,6 +19,7 @@ import java.util.List;
  * @author walker
  */
 @Service
+@Transactional
 public class TokenService extends JpaServiceImpl<Token, String> {
 
   @Autowired

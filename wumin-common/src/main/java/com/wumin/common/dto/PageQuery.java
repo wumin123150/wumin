@@ -68,11 +68,15 @@ public class PageQuery {
     int size = this.pageSize != null ? this.pageSize : pageSize;
 
     if (StringUtils.isEmpty(this.sortBy)) {
-      return new PageRequest(page, size, defaultSort);
+      if(defaultSort == null) {
+        return PageRequest.of(page, size);
+      } else {
+        return PageRequest.of(page, size, defaultSort);
+      }
     } else {
       Sort.Direction direction = StringUtils.isNotEmpty(this.sortDir) ? Sort.Direction.fromString(this.sortDir) : Sort.Direction.DESC;
       String[] properties = StringUtils.split(this.sortBy, ",");
-      return new PageRequest(page, size, direction, properties);
+      return PageRequest.of(page, size, direction, properties);
     }
   }
 

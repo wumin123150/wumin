@@ -1,43 +1,32 @@
 package com.wumin.core.service;
 
-import java.io.Serializable;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.Set;
-
-import javax.annotation.PostConstruct;
-
-import com.wumin.common.security.shiro.ShiroUser;
+import com.google.common.collect.Sets;
 import com.wumin.common.mapper.BeanMapper;
-import org.apache.shiro.authc.AccountException;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationInfo;
-import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.DisabledAccountException;
-import org.apache.shiro.authc.ExpiredCredentialsException;
-import org.apache.shiro.authc.LockedAccountException;
-import org.apache.shiro.authc.SimpleAuthenticationInfo;
-import org.apache.shiro.authc.UnknownAccountException;
-import org.apache.shiro.authz.AuthorizationInfo;
-import org.apache.shiro.authz.SimpleAuthorizationInfo;
-import org.apache.shiro.realm.AuthorizingRealm;
-import org.apache.shiro.subject.PrincipalCollection;
-
-import com.wumin.common.security.shiro.AccessToken;
-import com.wumin.common.security.shiro.InactiveAccountException;
-import com.wumin.common.security.shiro.SingleAccountException;
-import com.wumin.common.security.shiro.SkipCredentialsMatcher;
+import com.wumin.common.security.shiro.*;
 import com.wumin.common.time.DateUtil;
 import com.wumin.core.entity.Role;
 import com.wumin.core.entity.Token;
 import com.wumin.core.entity.User;
 import com.wumin.core.entity.UserGroup;
-import com.google.common.collect.Sets;
+import org.apache.shiro.authc.*;
+import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
+import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.subject.PrincipalCollection;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.annotation.PostConstruct;
+import java.io.Serializable;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.Set;
 
 public class ShiroAccessRealm extends AuthorizingRealm {
 
-  protected UserService userService;
-  protected TokenService tokenService;
+  @Autowired
+  private UserService userService;
+  @Autowired
+  private TokenService tokenService;
 
   /**
    * 认证回调函数,登录时调用.
@@ -129,14 +118,6 @@ public class ShiroAccessRealm extends AuthorizingRealm {
   @PostConstruct
   public void initAuthenticationTokenClass() {
     setAuthenticationTokenClass(AccessToken.class);
-  }
-
-  public void setUserService(UserService userService) {
-    this.userService = userService;
-  }
-
-  public void setTokenService(TokenService tokenService) {
-    this.tokenService = tokenService;
   }
 
   public static class RoleComparator implements Comparator<Role>, Serializable {

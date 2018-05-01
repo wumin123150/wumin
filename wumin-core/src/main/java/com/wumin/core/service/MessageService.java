@@ -28,6 +28,7 @@ import java.util.List;
  * @author walker
  */
 @Service
+@Transactional
 public class MessageService extends JpaServiceImpl<Message, String> {
 
 //  @Autowired

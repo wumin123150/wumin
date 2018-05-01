@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache updateCheck="false" name="shiroCache">
+
+	<diskStore path="java.io.tmpdir"/>
+
+	<defaultCache
+	    maxElementsInMemory="10000"
+	    eternal="false"
+	    timeToIdleSeconds="120"
+	    timeToLiveSeconds="120"
+	    overflowToDisk="false"
+	    diskPersistent="false"
+	    diskExpiryThreadIntervalSeconds="120" />
+
+	<!-- 登录记录缓存 锁定10分钟 -->
+	<cache name="passwordRetryCache"
+		   maxEntriesLocalHeap="2000"
+		   eternal="false"
+		   timeToIdleSeconds="3600"
+		   timeToLiveSeconds="0"
+		   overflowToDisk="false"
+		   statistics="true">
+	</cache>
+
+    <!-- 权限cache -->
+	<cache name="authorizationCache"
+	   maxEntriesLocalHeap="2000"
+	   eternal="false"
+	   timeToIdleSeconds="3600"
+	   timeToLiveSeconds="0"
+	   overflowToDisk="false"
+	   statistics="true">
+	</cache>
+
+	<!-- sessioncache -->
+	<cache name="shiro-activeSessionCache"
+	   maxEntriesLocalHeap="10000"
+	   eternal="false"
+	   timeToLiveSeconds="0"
+	   timeToIdleSeconds="0"
+	   diskPersistent="false"
+	   statistics="true" />
+
+	<cache name="shiro_cache"
+	   maxElementsInMemory="2000"
+	   maxEntriesLocalHeap="2000"
+	   eternal="false"
+	   timeToIdleSeconds="0"
+	   timeToLiveSeconds="0"
+	   maxElementsOnDisk="0"
+	   overflowToDisk="true"
+	   memoryStoreEvictionPolicy="FIFO"
+	   statistics="true">
+	</cache>
+
+</ehcache>

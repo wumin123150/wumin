@@ -11,6 +11,7 @@ public class ShiroUser implements Serializable {
     private Long id;
     private String loginName;
     private String name;
+    private String avatar;
 
     public ShiroUser() {
 
@@ -44,6 +45,14 @@ public class ShiroUser implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     /**
