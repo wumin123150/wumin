@@ -18,11 +18,17 @@
     .layui-form-pane .layui-input-block {
       margin-left: 210px;
     }
+    .layui-form-pane .layui-form-item.none-pane[pane] {
+      border-style: none;
+    }
+    .layui-form-pane .layui-form-item.none-pane[pane] .layui-form-label {
+      border-width: 1px;
+    }
   </style>
 </head>
 <body class="kit-main">
 <form id="form" class="layui-form layui-form-pane" th:action="@{/api/config/updateAll}" method="post" style="width:80%;">
-  <div th:each="config,status:${configs}" class="layui-form-item" th:classappend="${config.type == 1} ? 'layui-form-text'" pane=''>
+  <div th:each="config,status:${configs}" class="layui-form-item" th:classprepend="${config.type == 1} ? 'layui-form-text'" th:classappend="${config.type != 2 && config.type != 3} ? 'none-pane'" pane=''>
     <label class="layui-form-label">[[${config.name}]]（[[${config.code}]]）<a class="layui-btn layui-btn-xs btn-help" href="javascript:;" th:if="!${#strings.isEmpty(config.remark)}" th:data-content="${config.remark}"><i class="layui-icon">&#xe607;</i></a></label>
     <div class="layui-input-block" th:switch="${config.type}">
       <input type="hidden" th:name="'configs[' + ${status.index} + '].id'" th:value="${config.id}">
