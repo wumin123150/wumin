@@ -12,7 +12,7 @@
 	    diskPersistent="false"
 	    diskExpiryThreadIntervalSeconds="120" />
 
-	<!-- 登录记录缓存 锁定10分钟 -->
+	<!-- 登录记录cache 锁定10分钟 -->
 	<cache name="passwordRetryCache"
 		   maxEntriesLocalHeap="2000"
 		   eternal="false"
@@ -29,8 +29,7 @@
 	   timeToIdleSeconds="3600"
 	   timeToLiveSeconds="0"
 	   overflowToDisk="false"
-	   statistics="true">
-	</cache>
+	   statistics="true" />
 
 	<!-- sessioncache -->
 	<cache name="shiro-activeSessionCache"
@@ -50,7 +49,6 @@
 	   maxElementsOnDisk="0"
 	   overflowToDisk="true"
 	   memoryStoreEvictionPolicy="FIFO"
-	   statistics="true">
-	</cache>
+	   statistics="true" />
 
 </ehcache>

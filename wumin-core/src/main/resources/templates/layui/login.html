@@ -12,8 +12,8 @@
   <link rel="stylesheet" th:href="@{/static/js/layui/css/layui.css}" media="all"/>
   <style>
     .login {
-      height: 260px;
-      width: 260px;
+      height: 300px;
+      width: 300px;
       padding: 20px;
       background-color: rgba(0,0,0,0.5);
       border-radius: 4px;
@@ -42,6 +42,10 @@
       cursor: pointer;
     }
 
+    .layui-form-checkbox[lay-skin=primary] span {
+      color: #FFB800;
+    }
+
     .login-btn {
       width: 100%;
     }
@@ -60,6 +64,9 @@
     <div class="layui-form-item input-captcha">
       <input class="layui-input" name="code" placeholder="验证码" lay-verify="required" type="text" autocomplete="off">
       <div class="captcha"><img th:src="@{/Kaptcha.jpg}" width="116" height="36" style="cursor:pointer;" title="点击刷新"></div>
+    </div>
+    <div class="layui-form-item">
+      <input type="checkbox" name="rememberMe" lay-skin="primary" title="记住我" />
     </div>
     <button class="layui-btn login-btn" lay-submit lay-filter="login">登录</button>
   </form>
