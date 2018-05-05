@@ -14,6 +14,7 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 
 import java.util.List;
 
@@ -173,6 +174,11 @@ public class ResponseResult<T> {
 
     if (ex instanceof MethodArgumentNotValidException) {
       ResponseResult result = createParamError(((MethodArgumentNotValidException) ex).getBindingResult());
+      return result;
+    }
+
+    if(ex instanceof MissingServletRequestParameterException){
+      ResponseResult result = createError(ErrorCodeFactory.BAD_REQUEST);
       return result;
     }
 

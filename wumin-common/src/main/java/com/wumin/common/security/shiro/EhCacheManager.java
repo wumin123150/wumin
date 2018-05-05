@@ -73,7 +73,6 @@ public class EhCacheManager implements CacheManager, Initializable, Destroyable 
     }
 
     public final <K, V> Cache<K, V> getCache(String name) throws CacheException {
-
         if (LOGGER.isTraceEnabled()) {
             LOGGER.trace("Acquiring EhCache instance named [" + name + "]");
         }

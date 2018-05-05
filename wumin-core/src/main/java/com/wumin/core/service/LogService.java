@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -63,6 +64,7 @@ public class LogService extends JpaServiceImpl<Log, String> {
   }
 
   @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+  @Scheduled(cron = "0 0 2 * * ?")
   public void clear() {
     Date deadline = DateUtil.subDays(DateUtil.today(), period);
     logDao.clear(deadline);

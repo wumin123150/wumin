@@ -1,5 +1,6 @@
 package com.wumin.core.web.controller;
 
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;

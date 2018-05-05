@@ -12,14 +12,13 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
-@ControllerAdvice(annotations = {RestController.class})
+@CrossOrigin
+@RestControllerAdvice
 public class ApiExceptionHandler {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ApiExceptionHandler.class);
