@@ -41,7 +41,7 @@ public class UserGroupEndpoint {
   @ApiOperation(value = "根据父节点ID获取机构列表", httpMethod = "GET", produces = "application/json")
   @RequiresRoles("admin")
   @RequestMapping(value = "tree")
-  public ResponseResult<List<UserGroupDto>> tree(Long id) {
+  public ResponseResult<List<UserGroupVo>> tree(Long id) {
     List<UserGroup> userGroups = null;
     if (id != null) {
       if(id == 0) {
@@ -52,43 +52,43 @@ public class UserGroupEndpoint {
     } else {
       userGroups = userGroupService.getAll();
     }
-    return ResponseResult.createSuccess(userGroups, UserGroup.class, UserGroupDto.class);
+    return ResponseResult.createSuccess(userGroups, UserGroup.class, UserGroupVo.class);
   }
 
   @ApiOperation(value = "机构列表", httpMethod = "GET", produces = "application/json")
   @RequiresRoles("admin")
   @RequestMapping(value = "list")
-  public ResponseResult<List<UserGroupDto>> list() {
+  public ResponseResult<List<UserGroupVo>> list() {
     List<UserGroup> userGroups = userGroupService.getAll();
-    return ResponseResult.createSuccess(userGroups, UserGroup.class, UserGroupDto.class);
+    return ResponseResult.createSuccess(userGroups, UserGroup.class, UserGroupVo.class);
   }
 
   @ApiOperation(value = "机构分页列表", httpMethod = "GET", produces = "application/json")
   @RequestMapping(value = "page")
-  public ResponseResult<Page<UserGroupDto>> page(PageQuery pageQuery, Long parentId, HttpServletRequest request) {
+  public ResponseResult<Page<UserGroupVo>> page(PageQuery pageQuery, Long parentId, HttpServletRequest request) {
     Page<UserGroup> page = userGroupService.getPage(pageQuery.getSearchKey(), parentId, pageQuery.buildPageRequest());
-    return ResponseResult.createSuccess(page, UserGroup.class, UserGroupDto.class);
+    return ResponseResult.createSuccess(page, UserGroup.class, UserGroupVo.class);
   }
 
   @ApiOperation(value = "机构简单分页列表", httpMethod = "GET", produces = "application/json")
   @RequestMapping(value = "page2")
-  public ResponseResult<List<UserGroupDto>> page2(PageQuery pageQuery, Long parentId) {
+  public ResponseResult<List<UserGroupVo>> page2(PageQuery pageQuery, Long parentId) {
     Page<UserGroup> page = userGroupService.getPage(pageQuery.getSearchKey(), parentId, pageQuery.buildPageRequest());
-    return ResponseResult.createSuccess(page.getContent(), page.getTotalElements(), UserGroup.class, UserGroupDto.class);
+    return ResponseResult.createSuccess(page.getContent(), page.getTotalElements(), UserGroup.class, UserGroupVo.class);
   }
 
   @ApiOperation(value = "机构保存", httpMethod = "POST", produces = "application/json")
   @RequiresRoles("admin")
   @RequestMapping(value = "save", method = RequestMethod.POST)
-  public ResponseResult save(UserGroupVo userGroupVo) {
-    ComplexResult result = validate(userGroupVo);
+  public ResponseResult save(UserGroupDto userGroupDto) {
+    ComplexResult result = validate(userGroupDto);
     if (!result.isSuccess()) {
       return ResponseResult.createParamError(result);
     }
 
     UserGroup userGroup = null;
-    if(userGroupVo.getId() == null) {
-      userGroup = BeanMapper.map(userGroupVo, UserGroup.class);
+    if(userGroupDto.getId() == null) {
+      userGroup = BeanMapper.map(userGroupDto, UserGroup.class);
 
       UserGroup parent = null;
       if (userGroup.getParentId() != null) {
@@ -106,8 +106,8 @@ public class UserGroupEndpoint {
         userGroup.setPath(UserGroup.PATH_SPLIT + userGroup.getCode());
       }
     } else {
-      userGroup = userGroupService.get(userGroupVo.getId());
-      BeanMapper.map(userGroupVo, userGroup, UserGroupVo.class, UserGroup.class);
+      userGroup = userGroupService.get(userGroupDto.getId());
+      BeanMapper.map(userGroupDto, userGroup, UserGroupDto.class, UserGroup.class);
     }
 
     userGroupService.save(userGroup);
@@ -136,7 +136,7 @@ public class UserGroupEndpoint {
   @RequestMapping(value = "get/{id}")
   public ResponseResult get(@PathVariable("id") Long id) {
     UserGroup userGroup = userGroupService.get(id);
-    return ResponseResult.createSuccess(userGroup, UserGroupDto.class);
+    return ResponseResult.createSuccess(userGroup, UserGroupVo.class);
   }
 
   /**
@@ -151,11 +151,11 @@ public class UserGroupEndpoint {
     return !userGroupService.existCode(id, code);
   }
 
-  private ComplexResult validate(UserGroupVo userGroup) {
+  private ComplexResult validate(UserGroupDto userGroup) {
     ComplexResult result = FluentValidator.checkAll()
-      .on(userGroup, new HibernateSupportedValidator<UserGroupVo>().setHiberanteValidator(Validation.buildDefaultValidatorFactory().getValidator()))
-      .on(userGroup, new ValidatorHandler<UserGroupVo>() {
-        public boolean validate(ValidatorContext context, UserGroupVo t) {
+      .on(userGroup, new HibernateSupportedValidator<UserGroupDto>().setHiberanteValidator(Validation.buildDefaultValidatorFactory().getValidator()))
+      .on(userGroup, new ValidatorHandler<UserGroupDto>() {
+        public boolean validate(ValidatorContext context, UserGroupDto t) {
           if (userGroupService.existCode(t.getId(), t.getCode())) {
             context.addErrorMsg("代码已经被使用");
             return false;

@@ -59,7 +59,7 @@ public class UserEndpoint {
   @ApiOperation(value = "用户分页列表", httpMethod = "GET", produces = "application/json")
   @RequiresRoles("admin")
   @RequestMapping(value = "page")
-  public ResponseResult<Page<UserDto>> page(PageQuery pageQuery, Boolean advance, HttpServletRequest request) {
+  public ResponseResult<Page<UserVo>> page(PageQuery pageQuery, Boolean advance, HttpServletRequest request) {
     Page<User> page = null;
     if (BooleanUtils.isTrue(advance)) {
       JqGridFilter jqGridFilter = JsonMapper.INSTANCE.fromJson(request.getParameter("filters"), JqGridFilter.class);
@@ -67,7 +67,7 @@ public class UserEndpoint {
     } else {
       page = userService.getPage(new SearchRequest(pageQuery, "name", "loginName", "mobile"));
     }
-    return ResponseResult.createSuccess(page, User.class, UserDto.class);
+    return ResponseResult.createSuccess(page, User.class, UserVo.class);
   }
 
   @ApiOperation(value = "用户简单分页列表", httpMethod = "GET", produces = "application/json")
@@ -80,7 +80,7 @@ public class UserEndpoint {
   })
   @RequiresRoles("admin")
   @RequestMapping(value = "page2")
-  public ResponseResult<List<UserDto>> page2(PageQuery pageQuery, String loginName, String name, String mobile, String email, String status) {
+  public ResponseResult<List<UserVo>> page2(PageQuery pageQuery, String loginName, String name, String mobile, String email, String status) {
     SearchRequest searchRequest = new SearchRequest(pageQuery, "name", "loginName", "mobile")
       .addContain("loginName", loginName)
       .addContain("name", name)
@@ -88,32 +88,32 @@ public class UserEndpoint {
       .addContain("email", email)
       .addEqualToNotEmpty("status", status);
     Page<User> page = userService.getPage(searchRequest);
-    return ResponseResult.createSuccess(page.getContent(), page.getTotalElements(), User.class, UserDto.class);
+    return ResponseResult.createSuccess(page.getContent(), page.getTotalElements(), User.class, UserVo.class);
   }
 
   @ApiOperation(value = "用户获取", httpMethod = "GET", produces = "application/json")
   @RequiresRoles("admin")
   @RequestMapping(value = "get/{id}")
-  public ResponseResult<UserDto> get(@PathVariable("id") Long id) {
+  public ResponseResult<UserVo> get(@PathVariable("id") Long id) {
     User user = userService.get(id);
-    return ResponseResult.createSuccess(user, UserDto.class);
+    return ResponseResult.createSuccess(user, UserVo.class);
   }
 
   @ApiOperation(value = "用户新增", httpMethod = "POST")
   @RequiresRoles("admin")
   @RequestMapping(value = "create", method = RequestMethod.POST)
-  public ResponseResult create(UserVo userVo) throws IOException {
-    ComplexResult result = validate(userVo);
+  public ResponseResult create(UserDto userDto) throws IOException {
+    ComplexResult result = validate(userDto);
     if (!result.isSuccess()) {
       return ResponseResult.createParamError(result);
     }
 
-    User user = BeanMapper.map(userVo, User.class);
-    user.setPlainPassword(userVo.getPassword());
+    User user = BeanMapper.map(userDto, User.class);
+    user.setPlainPassword(userDto.getPassword());
     user = userService.save(user);
 
-    if(StringUtils.isNotEmpty(userVo.getAvatarId())) {
-      Annex annex = annexService.move(userVo.getAvatarId(), String.valueOf(user.getId()), User.USER_ANNEX_TYPE, User.USER_ANNEX_PATH);
+    if(StringUtils.isNotEmpty(userDto.getAvatarId())) {
+      Annex annex = annexService.move(userDto.getAvatarId(), String.valueOf(user.getId()), User.USER_ANNEX_TYPE, User.USER_ANNEX_PATH);
       user.setAvatar(annex.getPath());
       userService.save(user);
     }
@@ -124,20 +124,20 @@ public class UserEndpoint {
   @ApiOperation(value = "用户修改", httpMethod = "POST")
   @RequiresRoles("admin")
   @RequestMapping(value = "update", method = RequestMethod.POST)
-  public ResponseResult update(UserVo userVo) throws IOException {
-    ComplexResult result = validate(userVo);
+  public ResponseResult update(UserDto userDto) throws IOException {
+    ComplexResult result = validate(userDto);
     if (!result.isSuccess()) {
       return ResponseResult.createParamError(result);
     }
 
-    User user = userService.get(userVo.getId());
-    userVo.setLoginName(user.getLoginName());//修改不能设置账号
-    userVo.setPassword(null);//修改不能设置密码
+    User user = userService.get(userDto.getId());
+    userDto.setLoginName(user.getLoginName());//修改不能设置账号
+    userDto.setPassword(null);//修改不能设置密码
     user.setPlainPassword(null);
-    user = BeanMapper.map(userVo, user, UserVo.class, User.class);
+    user = BeanMapper.map(userDto, user, UserDto.class, User.class);
 
-    if(StringUtils.isNotEmpty(userVo.getAvatarId())) {
-      Annex annex = annexService.move(userVo.getAvatarId(), String.valueOf(user.getId()), User.USER_ANNEX_TYPE, User.USER_ANNEX_PATH);
+    if(StringUtils.isNotEmpty(userDto.getAvatarId())) {
+      Annex annex = annexService.move(userDto.getAvatarId(), String.valueOf(user.getId()), User.USER_ANNEX_TYPE, User.USER_ANNEX_PATH);
       user.setAvatar(annex.getPath());
     }
 
@@ -189,11 +189,11 @@ public class UserEndpoint {
     binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
   }
 
-  private ComplexResult validate(UserVo user) {
+  private ComplexResult validate(UserDto user) {
     ComplexResult result = FluentValidator.checkAll()
-      .on(user, new HibernateSupportedValidator<UserVo>().setHiberanteValidator(Validation.buildDefaultValidatorFactory().getValidator()))
-      .on(user, new ValidatorHandler<UserVo>() {
-        public boolean validate(ValidatorContext context, UserVo t) {
+      .on(user, new HibernateSupportedValidator<UserDto>().setHiberanteValidator(Validation.buildDefaultValidatorFactory().getValidator()))
+      .on(user, new ValidatorHandler<UserDto>() {
+        public boolean validate(ValidatorContext context, UserDto t) {
           if(StringUtils.containsWhitespace(t.getLoginName())) {
             context.addErrorMsg("账号不能有空格");
             return false;

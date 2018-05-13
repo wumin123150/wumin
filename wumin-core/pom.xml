@@ -169,6 +169,10 @@
 
 		<!-- JSR303 BeanValidator -->
 		<dependency>
+			<groupId>org.hibernate.validator</groupId>
+			<artifactId>hibernate-validator</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>com.baidu.unbiz</groupId>
 			<artifactId>fluent-validator</artifactId>
 		</dependency>

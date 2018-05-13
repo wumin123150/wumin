@@ -2,7 +2,6 @@ package com.wumin.core.web.api;
 
 import com.baidu.unbiz.fluentvalidator.*;
 import com.baidu.unbiz.fluentvalidator.jsr303.HibernateSupportedValidator;
-import com.wumin.common.collection.MapUtil;
 import com.wumin.common.dto.PageQuery;
 import com.wumin.common.dto.ResponseResult;
 import com.wumin.common.mapper.BeanMapper;
@@ -29,7 +28,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Validation;
 import java.util.List;
-import java.util.Map;
 
 @Api(description = "角色接口")
 @RestController
@@ -39,16 +37,10 @@ public class RoleEndpoint {
   @Autowired
   private RoleService roleService;
 
-  static {
-    Map<String, String> mapFields = MapUtil.newHashMap();
-    mapFields.put("permissionList{id}", "permissions{}");
-    BeanMapper.registerClassMap(Role.class, RoleVo.class, mapFields);
-  }
-
   @ApiOperation(value = "角色分页列表", httpMethod = "GET", produces = "application/json")
   @RequiresRoles("admin")
   @RequestMapping(value = "page")
-  public ResponseResult<Page<RoleDto>> page(PageQuery pageQuery, Boolean advance, HttpServletRequest request) {
+  public ResponseResult<Page<RoleVo>> page(PageQuery pageQuery, Boolean advance, HttpServletRequest request) {
     Page<Role> page = null;
     if (BooleanUtils.isTrue(advance)) {
       JqGridFilter jqGridFilter = JsonMapper.INSTANCE.fromJson(request.getParameter("filters"), JqGridFilter.class);
@@ -56,32 +48,32 @@ public class RoleEndpoint {
     } else {
       page = roleService.getPage(new SearchRequest(pageQuery, "code", "name"));
     }
-    return ResponseResult.createSuccess(page, Role.class, RoleDto.class);
+    return ResponseResult.createSuccess(page, Role.class, RoleVo.class);
   }
 
   @ApiOperation(value = "角色简单分页列表", httpMethod = "GET", produces = "application/json")
   @RequiresRoles("admin")
   @RequestMapping(value = "page2")
-  public ResponseResult<List<RoleDto>> page2(PageQuery pageQuery) {
+  public ResponseResult<List<RoleVo>> page2(PageQuery pageQuery) {
     Page<Role> page = roleService.getPage(new SearchRequest(pageQuery, "code", "name"));
-    return ResponseResult.createSuccess(page.getContent(), page.getTotalElements(), Role.class, RoleDto.class);
+    return ResponseResult.createSuccess(page.getContent(), page.getTotalElements(), Role.class, RoleVo.class);
   }
 
   @ApiOperation(value = "数据类型保存", httpMethod = "POST")
   @RequiresRoles("admin")
   @RequestMapping(value = "save", method = RequestMethod.POST)
-  public ResponseResult save(RoleVo roleVo) {
-    ComplexResult result = validate(roleVo);
+  public ResponseResult save(RoleDto roleDto) {
+    ComplexResult result = validate(roleDto);
     if (!result.isSuccess()) {
       return ResponseResult.createParamError(result);
     }
 
     Role role = null;
-    if(roleVo.getId() == null) {
-      role = BeanMapper.map(roleVo, Role.class);;
+    if(roleDto.getId() == null) {
+      role = BeanMapper.map(roleDto, Role.class);;
     } else {
-      role = roleService.get(roleVo.getId());
-      BeanMapper.map(roleVo, role, RoleVo.class, Role.class);
+      role = roleService.get(roleDto.getId());
+      BeanMapper.map(roleDto, role, RoleDto.class, Role.class);
     }
 
     roleService.save(role);
@@ -108,11 +100,11 @@ public class RoleEndpoint {
     return !roleService.existCode(id, code);
   }
 
-  private ComplexResult validate(RoleVo role) {
+  private ComplexResult validate(RoleDto role) {
     ComplexResult result = FluentValidator.checkAll()
-      .on(role, new HibernateSupportedValidator<RoleVo>().setHiberanteValidator(Validation.buildDefaultValidatorFactory().getValidator()))
-      .on(role, new ValidatorHandler<RoleVo>() {
-        public boolean validate(ValidatorContext context, RoleVo t) {
+      .on(role, new HibernateSupportedValidator<RoleDto>().setHiberanteValidator(Validation.buildDefaultValidatorFactory().getValidator()))
+      .on(role, new ValidatorHandler<RoleDto>() {
+        public boolean validate(ValidatorContext context, RoleDto t) {
           if (roleService.existCode(t.getId(), t.getCode())) {
             context.addErrorMsg("代码已经被使用");
             return false;

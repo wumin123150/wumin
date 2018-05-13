@@ -3,9 +3,8 @@ package com.wumin.core.dto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.Range;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -27,7 +26,7 @@ public class DataDictionaryDto {
   private String name;
   @ApiModelProperty(value = "序号", required = true)
   @NotNull(message = "序号不能为空")
-  @Range(min = 0, max = 10000, message = "序号必须在0到10000之间")
+  @Size(min = 0, max = 10000, message = "序号必须在0到10000之间")
   private Integer priority;
   @ApiModelProperty(value = "层级")
   private Integer grade;
